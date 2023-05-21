@@ -1,6 +1,8 @@
 package com.ead.userauth.controller;
 
+import com.ead.userauth.dto.response.UserDTO;
 import com.ead.userauth.entity.User;
+import com.ead.userauth.mapper.UserMapper;
 import com.ead.userauth.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -19,15 +22,22 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        return ResponseEntity.ok(userService.findAll());
+    public ResponseEntity<List<UserDTO>> findAll() {
+        List<UserDTO> users = userService.findAll()
+                .stream()
+                .map(userMapper::fromEntityToUserDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> findById(@PathVariable UUID userId) {
-        return ResponseEntity.ok(userService.findById(userId));
+    public ResponseEntity<UserDTO> findById(@PathVariable UUID userId) {
+        User user = userService.findById(userId);
+        return ResponseEntity.ok(userMapper.fromEntityToUserDto(user));
     }
 
     @DeleteMapping("/{userId}")
