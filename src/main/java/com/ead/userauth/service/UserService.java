@@ -9,6 +9,7 @@ public interface UserService {
 
     List<User> findAll();
     User findById(UUID userId);
-
     void deleteById(UUID userId);
+    User insertUser(User user);
+
 }

@@ -1,5 +1,6 @@
 package com.ead.userauth.mapper;
 
+import com.ead.userauth.dto.request.UserInsertDTO;
 import com.ead.userauth.dto.response.UserDTO;
 import com.ead.userauth.entity.User;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,10 @@ public class UserMapper {
 
     public UserDTO fromEntityToUserDto(final User user) {
         return mapper.map(user, UserDTO.class);
+    }
+
+    public User fromUserInsertDtoToEntity(UserInsertDTO userInsertDto) {
+        return mapper.map(userInsertDto, User.class);
     }
 
 }
