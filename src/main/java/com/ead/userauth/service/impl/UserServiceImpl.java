@@ -1,5 +1,8 @@
 package com.ead.userauth.service.impl;
 
+import com.ead.userauth.dto.request.PasswordUpdateDTO;
+import com.ead.userauth.dto.request.ProfilePictureUpdateDTO;
+import com.ead.userauth.dto.request.UserUpdateDTO;
 import com.ead.userauth.entity.User;
 import com.ead.userauth.entity.enumerated.UserStatus;
 import com.ead.userauth.entity.enumerated.UserType;
@@ -12,8 +15,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,10 +74,46 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private void setUserDefaultData(User user) {
+    private void setUserDefaultData(final User user) {
         user.setUserStatus(UserStatus.ACTIVE);
         user.setUserType(UserType.STUDENT);
-        user.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-        user.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
     }
+
+    @Override
+    @Transactional
+    public User updateUser(final UUID userId, final UserUpdateDTO userDto) {
+        User user = this.findById(userId);
+        updateUserData(user, userDto);
+        return userRepository.save(user);
+    }
+
+    private void updateUserData(final User user, final UserUpdateDTO userUpdateDTO) {
+        user.setFullName(userUpdateDTO.getFullName());
+        user.setPhoneNumber(userUpdateDTO.getPhoneNumber());
+        user.setDocument(userUpdateDTO.getDocument());
+    }
+
+    @Override
+    @Transactional
+    public void updateUserPassword(final UUID userId, final PasswordUpdateDTO passwordUpdateDto) {
+        User user = this.findById(userId);
+        validateIfUserPasswordIsCorrect(user, passwordUpdateDto.getCurrentPassword());
+        user.setPassword(passwordUpdateDto.getNewPassword());
+        userRepository.save(user);
+    }
+
+    private void validateIfUserPasswordIsCorrect(final User user, final String currentPassword) {
+        if (!user.getPassword().equals(currentPassword)) {
+            throw new InvalidDataException("User not found or password is incorrect.");
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateUserProfilePicture(final UUID userId, final ProfilePictureUpdateDTO profilePictureUpdateDto) {
+        User user = this.findById(userId);
+        user.setImageUrl(profilePictureUpdateDto.getImageUrl());
+        userRepository.save(user);
+    }
+
 }
