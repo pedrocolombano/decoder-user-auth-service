@@ -2,7 +2,6 @@ package com.ead.userauth.entity;
 
 import com.ead.userauth.entity.enumerated.UserStatus;
 import com.ead.userauth.entity.enumerated.UserType;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,7 +32,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements Serializable {
 
     private static final long serialVersionUID = -5444356108868502803L;

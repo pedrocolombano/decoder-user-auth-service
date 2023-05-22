@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -53,21 +54,21 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable UUID userId,
-                                              @RequestBody UserUpdateDTO userDto) {
+                                              @RequestBody @Valid UserUpdateDTO userDto) {
         User updatedUser = userService.updateUser(userId, userDto);
         return ResponseEntity.ok(userMapper.fromEntityToUserDto(updatedUser));
     }
 
     @PutMapping("/{userId}/password")
     public ResponseEntity<Void> updateUserPassword(@PathVariable UUID userId,
-                                                   @RequestBody PasswordUpdateDTO passwordUpdateDto) {
+                                                   @RequestBody @Valid PasswordUpdateDTO passwordUpdateDto) {
         userService.updateUserPassword(userId, passwordUpdateDto);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{userId}/profile-picture")
     public ResponseEntity<Void> updateUserProfilePicture(@PathVariable UUID userId,
-                                                         @RequestBody ProfilePictureUpdateDTO profilePictureUpdateDto) {
+                                                         @RequestBody @Valid ProfilePictureUpdateDTO profilePictureUpdateDto) {
         userService.updateUserProfilePicture(userId, profilePictureUpdateDto);
         return ResponseEntity.noContent().build();
     }

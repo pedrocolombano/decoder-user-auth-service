@@ -3,6 +3,7 @@ package com.ead.userauth.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.io.Serializable;
 
@@ -15,6 +16,8 @@ public class UserUpdateDTO implements Serializable {
 
     private String fullName;
     private String phoneNumber;
+
+    @CPF
     private String document;
 
 }

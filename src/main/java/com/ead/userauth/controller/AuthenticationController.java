@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -24,7 +25,7 @@ public class AuthenticationController {
     private final UserMapper userMapper;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<UserDTO> insertUser(@RequestBody UserInsertDTO userInsertDto) {
+    public ResponseEntity<UserDTO> insertUser(@RequestBody @Valid UserInsertDTO userInsertDto) {
         final User createdUser = userService.insertUser(userMapper.fromUserInsertDtoToEntity(userInsertDto));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{userId}")
