@@ -1,5 +1,6 @@
 package com.ead.userauth.service;
 
+import com.ead.userauth.dto.param.UserFiltersDTO;
 import com.ead.userauth.dto.request.PasswordUpdateDTO;
 import com.ead.userauth.dto.request.ProfilePictureUpdateDTO;
 import com.ead.userauth.dto.request.UserUpdateDTO;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 public interface UserService {
 
-    Page<User> findAll(Pageable pageable);
+    Page<User> findAll(Pageable pageable, UserFiltersDTO filters);
     User findById(UUID userId);
     void deleteById(UUID userId);
     User insertUser(User user);

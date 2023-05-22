@@ -1,5 +1,6 @@
 package com.ead.userauth.service.impl;
 
+import com.ead.userauth.dto.param.UserFiltersDTO;
 import com.ead.userauth.dto.request.PasswordUpdateDTO;
 import com.ead.userauth.dto.request.ProfilePictureUpdateDTO;
 import com.ead.userauth.dto.request.UserUpdateDTO;
@@ -27,8 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<User> findAll(final Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<User> findAll(final Pageable pageable, UserFiltersDTO filters) {
+        return userRepository.find(pageable, filters);
     }
 
     @Override

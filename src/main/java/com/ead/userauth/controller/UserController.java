@@ -1,5 +1,6 @@
 package com.ead.userauth.controller;
 
+import com.ead.userauth.dto.param.UserFiltersDTO;
 import com.ead.userauth.dto.request.PasswordUpdateDTO;
 import com.ead.userauth.dto.request.ProfilePictureUpdateDTO;
 import com.ead.userauth.dto.request.UserUpdateDTO;
@@ -33,8 +34,9 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public ResponseEntity<Page<UserDTO>> findAll(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<UserDTO> users = userService.findAll(pageable)
+    public ResponseEntity<Page<UserDTO>> findAll(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+                                                 UserFiltersDTO filters) {
+        Page<UserDTO> users = userService.findAll(pageable, filters)
                 .map(userMapper::fromEntityToUserDto);
 
         return ResponseEntity.ok(users);
