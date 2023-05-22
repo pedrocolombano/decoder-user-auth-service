@@ -1,5 +1,6 @@
 package com.ead.userauth.dto.request;
 
+import com.ead.userauth.validation.DoNotContainWhitespaces;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class UserInsertDTO implements Serializable {
     private static final long serialVersionUID = -779048429057258253L;
 
     @NotBlank
+    @DoNotContainWhitespaces
     @Size(min = 4, max = 50)
     private String username;
 
