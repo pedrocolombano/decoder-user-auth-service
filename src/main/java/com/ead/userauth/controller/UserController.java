@@ -8,6 +8,10 @@ import com.ead.userauth.entity.User;
 import com.ead.userauth.mapper.UserMapper;
 import com.ead.userauth.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -31,11 +33,9 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> findAll() {
-        List<UserDTO> users = userService.findAll()
-                .stream()
-                .map(userMapper::fromEntityToUserDto)
-                .collect(Collectors.toList());
+    public ResponseEntity<Page<UserDTO>> findAll(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<UserDTO> users = userService.findAll(pageable)
+                .map(userMapper::fromEntityToUserDto);
 
         return ResponseEntity.ok(users);
     }

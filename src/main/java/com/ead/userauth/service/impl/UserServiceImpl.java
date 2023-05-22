@@ -12,10 +12,11 @@ import com.ead.userauth.repository.UserRepository;
 import com.ead.userauth.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,8 +27,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public Page<User> findAll(final Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     @Override
