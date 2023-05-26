@@ -1,6 +1,5 @@
 package com.ead.userauth.controller;
 
-import com.ead.userauth.dto.param.UserFiltersDTO;
 import com.ead.userauth.dto.request.PasswordUpdateDTO;
 import com.ead.userauth.dto.request.ProfilePictureUpdateDTO;
 import com.ead.userauth.dto.request.UserUpdateDTO;
@@ -8,6 +7,7 @@ import com.ead.userauth.dto.response.UserDTO;
 import com.ead.userauth.entity.User;
 import com.ead.userauth.mapper.UserMapper;
 import com.ead.userauth.service.UserService;
+import com.ead.userauth.specification.UserSpecificationTemplate;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -37,9 +37,9 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public ResponseEntity<Page<UserDTO>> findAll(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-                                                 UserFiltersDTO filters) {
-        Page<UserDTO> users = userService.findAll(pageable, filters)
+    public ResponseEntity<Page<UserDTO>> findAll(UserSpecificationTemplate.UserSpecification specification,
+                                                 @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        final Page<UserDTO> users = userService.findAll(specification, pageable)
                 .map(userMapper::fromEntityToUserDto);
         users.forEach(user -> user.add(
                 WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserController.class).findById(user.getUserId())).withSelfRel()));

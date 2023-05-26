@@ -2,6 +2,7 @@ package com.ead.userauth.dto.response;
 
 import com.ead.userauth.entity.enumerated.UserStatus;
 import com.ead.userauth.entity.enumerated.UserType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +32,11 @@ public class UserDTO extends RepresentationModel<UserDTO> implements Serializabl
     private String phoneNumber;
     private String document;
     private String imageUrl;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime updatedAt;
 
 }

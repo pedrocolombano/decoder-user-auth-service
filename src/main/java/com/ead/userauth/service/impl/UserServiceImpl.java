@@ -1,6 +1,5 @@
 package com.ead.userauth.service.impl;
 
-import com.ead.userauth.dto.param.UserFiltersDTO;
 import com.ead.userauth.dto.request.PasswordUpdateDTO;
 import com.ead.userauth.dto.request.ProfilePictureUpdateDTO;
 import com.ead.userauth.dto.request.UserUpdateDTO;
@@ -11,6 +10,7 @@ import com.ead.userauth.exception.InvalidDataException;
 import com.ead.userauth.exception.ResourceNotFoundException;
 import com.ead.userauth.repository.UserRepository;
 import com.ead.userauth.service.UserService;
+import com.ead.userauth.specification.UserSpecificationTemplate;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -30,8 +30,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<User> findAll(final Pageable pageable, UserFiltersDTO filters) {
-        return userRepository.find(pageable, filters);
+    public Page<User> findAll(final UserSpecificationTemplate.UserSpecification specification, final Pageable pageable) {
+        return userRepository.findAll(specification, pageable);
     }
 
     @Override
