@@ -9,6 +9,7 @@ import com.ead.userauth.entity.User;
 import com.ead.userauth.mapper.UserMapper;
 import com.ead.userauth.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,6 +30,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
+@Log4j2
 public class UserController {
 
     private final UserService userService;
@@ -53,21 +55,30 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID userId) {
+        log.debug("Deleting user {}", userId);
         userService.deleteById(userId);
+
+        log.info("User {} successfully deleted.", userId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable UUID userId,
                                               @RequestBody @Valid UserUpdateDTO userDto) {
+        log.debug("Updating user {}. Received data: {}", userId, userDto.toString());
         User updatedUser = userService.updateUser(userId, userDto);
+
+        log.info("User {} updated.", updatedUser.getUserId());
         return ResponseEntity.ok(userMapper.fromEntityToUserDto(updatedUser));
     }
 
     @PutMapping("/{userId}/password")
     public ResponseEntity<Void> updateUserPassword(@PathVariable UUID userId,
                                                    @RequestBody @Valid PasswordUpdateDTO passwordUpdateDto) {
+        log.debug("Updating user {} password.", userId);
         userService.updateUserPassword(userId, passwordUpdateDto);
+
+        log.info("User {} successfully updated password.", userId);
         return ResponseEntity.noContent().build();
     }
 

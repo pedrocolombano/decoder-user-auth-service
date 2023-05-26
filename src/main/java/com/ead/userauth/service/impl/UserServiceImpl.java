@@ -12,6 +12,7 @@ import com.ead.userauth.exception.ResourceNotFoundException;
 import com.ead.userauth.repository.UserRepository;
 import com.ead.userauth.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -65,6 +67,7 @@ public class UserServiceImpl implements UserService {
     private void validateIfUsernameIsAlreadyTaken(final String username) {
         boolean exists = userRepository.existsByUsername(username);
         if (exists) {
+            log.info("Username {} is already taken.", username);
             throw new InvalidDataException("The username is already being used.");
         }
     }
@@ -72,6 +75,7 @@ public class UserServiceImpl implements UserService {
     private void validateIfEmailIsAlreadyTaken(final String email) {
         boolean exists = userRepository.existsByEmail(email);
         if (exists) {
+            log.info("Email {} is already taken.", email);
             throw new InvalidDataException("The email is already being used.");
         }
     }
