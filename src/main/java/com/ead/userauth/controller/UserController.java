@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -37,9 +38,10 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public ResponseEntity<Page<UserDTO>> findAll(UserSpecificationTemplate.UserSpecification specification,
+    public ResponseEntity<Page<UserDTO>> findAll(@RequestParam(required = false) UUID courseId,
+                                                 UserSpecificationTemplate.UserSpecification specification,
                                                  @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        final Page<UserDTO> users = userService.findAll(specification, pageable)
+        final Page<UserDTO> users = userService.findAll(courseId, specification, pageable)
                 .map(userMapper::fromEntityToUserDto);
         users.forEach(user -> user.add(
                 WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserController.class).findById(user.getUserId())).withSelfRel()));

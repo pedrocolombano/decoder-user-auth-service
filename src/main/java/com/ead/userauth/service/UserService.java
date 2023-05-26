@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public interface UserService {
 
-    Page<User> findAll(UserSpecificationTemplate.UserSpecification specification, Pageable pageable);
+    Page<User> findAll(UUID courseId, UserSpecificationTemplate.UserSpecification specification, Pageable pageable);
     User findById(UUID userId);
     void deleteById(UUID userId);
     User insertUser(User user);

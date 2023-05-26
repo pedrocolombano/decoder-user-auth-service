@@ -16,9 +16,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -30,7 +32,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<User> findAll(final UserSpecificationTemplate.UserSpecification specification, final Pageable pageable) {
+    public Page<User> findAll(final UUID courseId, final UserSpecificationTemplate.UserSpecification specification, final Pageable pageable) {
+        if (Objects.nonNull(courseId)) {
+            final Specification<User> userByCourseSpecification = UserSpecificationTemplate.userByCourseId(courseId).and(specification);
+            return userRepository.findAll(userByCourseSpecification, pageable);
+        }
         return userRepository.findAll(specification, pageable);
     }
 
