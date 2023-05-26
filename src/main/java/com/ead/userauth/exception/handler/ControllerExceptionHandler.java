@@ -1,6 +1,7 @@
 package com.ead.userauth.exception.handler;
 
 import com.ead.userauth.exception.InvalidDataException;
+import com.ead.userauth.exception.ProxyException;
 import com.ead.userauth.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,16 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(InvalidDataException.class)
     public ResponseEntity<StandardError> handleInvalidData(final InvalidDataException exception,
-                                                                final HttpServletRequest request) {
-        final HttpStatus notFoundStatus = HttpStatus.UNPROCESSABLE_ENTITY;
-        return ResponseEntity.status(notFoundStatus).body(createResponseBody(notFoundStatus, exception, request));
+                                                           final HttpServletRequest request) {
+        final HttpStatus unprocessableEntityStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+        return ResponseEntity.status(unprocessableEntityStatus).body(createResponseBody(unprocessableEntityStatus, exception, request));
+    }
+
+    @ExceptionHandler(ProxyException.class)
+    public ResponseEntity<StandardError> handleInvalidData(final ProxyException exception,
+                                                           final HttpServletRequest request) {
+        final HttpStatus badGatewayStatus = HttpStatus.BAD_GATEWAY;
+        return ResponseEntity.status(badGatewayStatus).body(createResponseBody(badGatewayStatus, exception, request));
     }
 
     private StandardError createResponseBody(final HttpStatus status,

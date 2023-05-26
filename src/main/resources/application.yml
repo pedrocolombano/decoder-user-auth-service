@@ -22,3 +22,8 @@ spring:
   output:
     ansi:
       enabled: always
+
+ead:
+  course:
+    service:
+      host: 'http://localhost:8082'
