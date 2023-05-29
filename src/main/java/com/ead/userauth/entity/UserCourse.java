@@ -1,6 +1,7 @@
 package com.ead.userauth.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @Table(name = "tb_user_courses")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @ToString

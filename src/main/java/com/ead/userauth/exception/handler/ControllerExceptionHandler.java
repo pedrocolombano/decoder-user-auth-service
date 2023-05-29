@@ -1,6 +1,7 @@
 package com.ead.userauth.exception.handler;
 
 import com.ead.userauth.exception.InvalidDataException;
+import com.ead.userauth.exception.InvalidSubscriptionException;
 import com.ead.userauth.exception.ProxyException;
 import com.ead.userauth.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,13 @@ public class ControllerExceptionHandler {
         response.getErrors().addAll(createFieldErrorList(exception));
 
         return ResponseEntity.status(badRequestStatus).body(response);
+    }
+
+    @ExceptionHandler(InvalidSubscriptionException.class)
+    public ResponseEntity<StandardError> handleInvalidSubscription(final InvalidSubscriptionException exception,
+                                                                   final HttpServletRequest request) {
+        final HttpStatus badGatewayStatus = HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(badGatewayStatus).body(createResponseBody(badGatewayStatus, exception, request));
     }
 
     private StandardError createResponseBody(final HttpStatus status,
