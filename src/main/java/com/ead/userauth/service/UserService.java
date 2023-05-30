@@ -19,5 +19,6 @@ public interface UserService {
     User updateUser(UUID userId, UserUpdateDTO userDto);
     void updateUserPassword(UUID userId, PasswordUpdateDTO passwordUpdateDto);
     void updateUserProfilePicture(UUID userId, ProfilePictureUpdateDTO profilePictureUpdateDto);
+    User subscribeInstructor(UUID instructorInsertDTO);
 
 }

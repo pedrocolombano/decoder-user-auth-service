@@ -123,9 +123,17 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateUserProfilePicture(final UUID userId, final ProfilePictureUpdateDTO profilePictureUpdateDto) {
-        User user = this.findById(userId);
+        final User user = this.findById(userId);
         user.setImageUrl(profilePictureUpdateDto.getImageUrl());
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public User subscribeInstructor(final UUID userId) {
+        final User instructor = this.findById(userId);
+        instructor.setUserType(UserType.INSTRUCTOR);
+        return userRepository.save(instructor);
     }
 
 }
