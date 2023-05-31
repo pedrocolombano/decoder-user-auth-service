@@ -2,6 +2,9 @@ server:
   port: 8087
 
 spring:
+  application:
+    name: ead-user-auth-service
+
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
@@ -22,6 +25,13 @@ spring:
   output:
     ansi:
       enabled: always
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${SERVICE_REGISTRY_URL}
+  instance:
+    hostname: localhost
 
 ead:
   course:
