@@ -9,7 +9,6 @@ spring:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
-
   jpa:
     open-in-view: false
     hibernate:
@@ -36,4 +35,4 @@ eureka:
 ead:
   course:
     service:
-      host: 'http://localhost:8082'
+      host: 'http://ead-course-service'
