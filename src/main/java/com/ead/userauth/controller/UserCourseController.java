@@ -12,18 +12,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/users/{userId}/courses")
 @AllArgsConstructor
 @Log4j2
 public class UserCourseController {
@@ -31,16 +30,22 @@ public class UserCourseController {
     private final UserCourseService userCourseService;
     private final UserCourseMapper userCourseMapper;
 
-    @GetMapping
+    @GetMapping("/users/{userId}/courses")
     public ResponseEntity<Page<CourseDTO>> findAllUserCourses(@PathVariable UUID userId, Pageable pageable) {
         return ResponseEntity.ok(userCourseService.getAllCoursesByUser(userId, pageable));
     }
 
-    @PostMapping("/subscribe")
+    @PostMapping("/users/{userId}/courses/subscribe")
     public ResponseEntity<SubscribedUserDTO> subscribeUserIntoCourse(@PathVariable UUID userId, @RequestBody @Valid UserCourseDTO userCourseDto) {
         final UserCourse subscribedUser = userCourseService.subscribeUserIntoCourse(userId, userCourseDto);
         final SubscribedUserDTO response = userCourseMapper.fromEntity(subscribedUser);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/users/courses/{courseId}")
+    public ResponseEntity<Void> deleteUsersSubscribedIntoCourse(@PathVariable UUID courseId) {
+        userCourseService.deleteUsersSubscribedIntoCourse(courseId);
+        return ResponseEntity.noContent().build();
     }
 
 }

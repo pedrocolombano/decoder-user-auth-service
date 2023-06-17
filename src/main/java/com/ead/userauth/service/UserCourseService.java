@@ -12,5 +12,6 @@ public interface UserCourseService {
 
     Page<CourseDTO> getAllCoursesByUser(UUID userId, Pageable pageable);
     UserCourse subscribeUserIntoCourse(UUID userId, UserCourseDTO userCourseDto);
+    void deleteUsersSubscribedIntoCourse(UUID courseId);
 
 }

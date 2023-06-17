@@ -5,6 +5,7 @@ import com.ead.userauth.dto.response.CourseDTO;
 import com.ead.userauth.entity.User;
 import com.ead.userauth.entity.UserCourse;
 import com.ead.userauth.exception.InvalidSubscriptionException;
+import com.ead.userauth.exception.ResourceNotFoundException;
 import com.ead.userauth.proxy.CourseProxy;
 import com.ead.userauth.repository.UserCourseRepository;
 import com.ead.userauth.service.UserCourseService;
@@ -58,5 +59,20 @@ public class UserCourseServiceImpl implements UserCourseService {
                 .user(user)
                 .courseId(courseId)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void deleteUsersSubscribedIntoCourse(final UUID courseId) {
+        validateIfThereAreUsersSubscribedByCourse(courseId);
+        userCourseRepository.deleteAllByCourseId(courseId);
+    }
+
+    private void validateIfThereAreUsersSubscribedByCourse(final UUID courseId) {
+        final boolean hasAnyUsersSubscribed = userCourseRepository.existsByCourseId(courseId);
+        if (!hasAnyUsersSubscribed) {
+            log.info("There are no users subscribed into course {}.", courseId);
+            throw new ResourceNotFoundException("There are no users subscribed into course.");
+        }
     }
 }
