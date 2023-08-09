@@ -1,11 +1,11 @@
 package com.ead.userauth.service.impl;
 
+import com.ead.commonlib.exception.InvalidSubscriptionException;
+import com.ead.commonlib.exception.ResourceNotFoundException;
 import com.ead.userauth.dto.request.UserCourseDTO;
 import com.ead.userauth.dto.response.CourseDTO;
 import com.ead.userauth.entity.User;
 import com.ead.userauth.entity.UserCourse;
-import com.ead.userauth.exception.InvalidSubscriptionException;
-import com.ead.userauth.exception.ResourceNotFoundException;
 import com.ead.userauth.proxy.CourseProxy;
 import com.ead.userauth.repository.UserCourseRepository;
 import com.ead.userauth.service.UserCourseService;

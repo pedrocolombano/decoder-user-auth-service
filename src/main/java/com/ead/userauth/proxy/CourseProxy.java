@@ -1,8 +1,8 @@
 package com.ead.userauth.proxy;
 
+import com.ead.commonlib.exception.ProxyException;
 import com.ead.userauth.dto.response.CourseDTO;
 import com.ead.userauth.dto.response.PageResponseDTO;
-import com.ead.userauth.exception.ProxyException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.ParameterizedTypeReference;

@@ -1,13 +1,13 @@
 package com.ead.userauth.service.impl;
 
+import com.ead.commonlib.exception.InvalidDataException;
+import com.ead.commonlib.exception.ResourceNotFoundException;
 import com.ead.userauth.dto.request.PasswordUpdateDTO;
 import com.ead.userauth.dto.request.ProfilePictureUpdateDTO;
 import com.ead.userauth.dto.request.UserUpdateDTO;
 import com.ead.userauth.entity.User;
 import com.ead.userauth.entity.enumerated.UserStatus;
 import com.ead.userauth.entity.enumerated.UserType;
-import com.ead.userauth.exception.InvalidDataException;
-import com.ead.userauth.exception.ResourceNotFoundException;
 import com.ead.userauth.repository.UserRepository;
 import com.ead.userauth.service.UserService;
 import com.ead.userauth.specification.UserSpecificationTemplate;
