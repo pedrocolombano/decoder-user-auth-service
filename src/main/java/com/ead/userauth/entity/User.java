@@ -1,5 +1,6 @@
 package com.ead.userauth.entity;
 
+import com.ead.commonlib.entity.GenericEntity;
 import com.ead.userauth.entity.enumerated.UserStatus;
 import com.ead.userauth.entity.enumerated.UserType;
 import lombok.AllArgsConstructor;
@@ -18,12 +19,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -36,7 +34,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public class User implements Serializable {
+public class User extends GenericEntity implements Serializable {
 
     private static final long serialVersionUID = -5444356108868502803L;
 
@@ -81,17 +79,6 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @ToString.Exclude
     private final Set<UserCourse> userCourses = new HashSet<>();
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now(ZoneId.of("UTC"));
-        this.updatedAt = LocalDateTime.now(ZoneId.of("UTC"));
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now(ZoneId.of("UTC"));
-    }
 
     @Override
     public boolean equals(Object o) {
