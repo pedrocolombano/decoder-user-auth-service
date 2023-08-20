@@ -1,7 +1,7 @@
 package com.ead.userauth.feignclients;
 
+import com.ead.commonlib.dto.response.PageResponseDTO;
 import com.ead.userauth.dto.response.CourseDTO;
-import com.ead.userauth.dto.response.PageResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
