@@ -5,9 +5,11 @@ import com.ead.commonlib.exception.ResourceNotFoundException;
 import com.ead.userauth.dto.request.PasswordUpdateDTO;
 import com.ead.userauth.dto.request.ProfilePictureUpdateDTO;
 import com.ead.userauth.dto.request.UserUpdateDTO;
+import com.ead.userauth.dto.response.CourseDTO;
 import com.ead.userauth.entity.User;
 import com.ead.userauth.entity.enumerated.UserStatus;
 import com.ead.userauth.entity.enumerated.UserType;
+import com.ead.userauth.feignclients.CourseClient;
 import com.ead.userauth.repository.UserRepository;
 import com.ead.userauth.service.UserService;
 import com.ead.userauth.specification.UserSpecificationTemplate;
@@ -16,11 +18,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -29,14 +29,11 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final CourseClient courseClient;
 
     @Override
     @Transactional(readOnly = true)
-    public Page<User> findAll(final UUID courseId, final UserSpecificationTemplate.UserSpecification specification, final Pageable pageable) {
-        if (Objects.nonNull(courseId)) {
-            final Specification<User> userByCourseSpecification = UserSpecificationTemplate.userByCourseId(courseId).and(specification);
-            return userRepository.findAll(userByCourseSpecification, pageable);
-        }
+    public Page<User> findAll(final UserSpecificationTemplate.UserSpecification specification, final Pageable pageable) {
         return userRepository.findAll(specification, pageable);
     }
 
@@ -134,6 +131,11 @@ public class UserServiceImpl implements UserService {
         final User instructor = this.findById(userId);
         instructor.setUserType(UserType.INSTRUCTOR);
         return userRepository.save(instructor);
+    }
+
+    @Override
+    public Page<CourseDTO> findAllCoursesByUser(final UUID userId, final Pageable pageable) {
+        return courseClient.getAllCoursesByUserId(userId, pageable);
     }
 
 }

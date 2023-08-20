@@ -3,6 +3,7 @@ package com.ead.userauth.service;
 import com.ead.userauth.dto.request.PasswordUpdateDTO;
 import com.ead.userauth.dto.request.ProfilePictureUpdateDTO;
 import com.ead.userauth.dto.request.UserUpdateDTO;
+import com.ead.userauth.dto.response.CourseDTO;
 import com.ead.userauth.entity.User;
 import com.ead.userauth.specification.UserSpecificationTemplate;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 public interface UserService {
 
-    Page<User> findAll(UUID courseId, UserSpecificationTemplate.UserSpecification specification, Pageable pageable);
+    Page<User> findAll(UserSpecificationTemplate.UserSpecification specification, Pageable pageable);
     User findById(UUID userId);
     void deleteById(UUID userId);
     User insertUser(User user);
@@ -20,5 +21,6 @@ public interface UserService {
     void updateUserPassword(UUID userId, PasswordUpdateDTO passwordUpdateDto);
     void updateUserProfilePicture(UUID userId, ProfilePictureUpdateDTO profilePictureUpdateDto);
     User subscribeInstructor(UUID instructorInsertDTO);
+    Page<CourseDTO> findAllCoursesByUser(UUID userId, Pageable pageable);
 
 }
