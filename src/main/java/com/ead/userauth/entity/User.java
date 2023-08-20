@@ -1,8 +1,8 @@
 package com.ead.userauth.entity;
 
 import com.ead.commonlib.entity.GenericEntity;
-import com.ead.userauth.entity.enumerated.UserStatus;
-import com.ead.userauth.entity.enumerated.UserType;
+import com.ead.commonlib.enumerated.UserStatus;
+import com.ead.commonlib.enumerated.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +19,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -65,12 +64,6 @@ public class User extends GenericEntity implements Serializable {
     private String document;
 
     private String imageUrl;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
 
     @Override
     public boolean equals(Object o) {

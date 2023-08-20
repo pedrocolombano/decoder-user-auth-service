@@ -1,7 +1,7 @@
 package com.ead.userauth.dto.response;
 
-import com.ead.userauth.entity.enumerated.UserStatus;
-import com.ead.userauth.entity.enumerated.UserType;
+import com.ead.commonlib.enumerated.UserStatus;
+import com.ead.commonlib.enumerated.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
