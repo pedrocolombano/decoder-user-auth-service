@@ -34,7 +34,16 @@ eureka:
   instance:
     hostname: localhost
 
-ead:
-  course:
-    service:
-      host: 'http://ead-course-service/ead-course'
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: basic
+
+logging:
+  level:
+    com:
+      ead:
+        userauth:
+          feignclients: debug

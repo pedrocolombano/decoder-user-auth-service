@@ -6,7 +6,7 @@ import com.ead.userauth.dto.request.UserCourseDTO;
 import com.ead.userauth.dto.response.CourseDTO;
 import com.ead.userauth.entity.User;
 import com.ead.userauth.entity.UserCourse;
-import com.ead.userauth.proxy.CourseProxy;
+import com.ead.userauth.feignclients.CourseClient;
 import com.ead.userauth.repository.UserCourseRepository;
 import com.ead.userauth.service.UserCourseService;
 import com.ead.userauth.service.UserService;
@@ -24,14 +24,14 @@ import java.util.UUID;
 @Log4j2
 public class UserCourseServiceImpl implements UserCourseService {
 
-    private final CourseProxy courseProxy;
+    private final CourseClient courseClient;
 
     private final UserService userService;
     private final UserCourseRepository userCourseRepository;
 
     @Override
     public Page<CourseDTO> getAllCoursesByUser(final UUID userId, final Pageable pageable) {
-        return courseProxy.getAllByUser(userId, pageable);
+        return courseClient.getAllCoursesByUserId(userId, pageable);
     }
 
     @Override
