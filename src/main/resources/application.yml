@@ -27,6 +27,9 @@ spring:
     ansi:
       enabled: always
 
+  rabbitmq:
+    addresses: ${AMQP_ADDRESS}
+
 eureka:
   client:
     service-url:
