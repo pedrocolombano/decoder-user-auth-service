@@ -1,4 +1,4 @@
-package com.ead.userauth.feignclients;
+package com.ead.userauth.feignclient;
 
 import com.ead.commonlib.dto.response.PageResponseDTO;
 import com.ead.userauth.dto.response.CourseDTO;

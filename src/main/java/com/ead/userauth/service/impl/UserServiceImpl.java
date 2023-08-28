@@ -1,15 +1,19 @@
 package com.ead.userauth.service.impl;
 
+import com.ead.commonlib.enumerated.ActionType;
 import com.ead.commonlib.enumerated.UserStatus;
 import com.ead.commonlib.enumerated.UserType;
 import com.ead.commonlib.exception.InvalidDataException;
 import com.ead.commonlib.exception.ResourceNotFoundException;
+import com.ead.userauth.dto.rabbitmq.UserEventDTO;
 import com.ead.userauth.dto.request.PasswordUpdateDTO;
 import com.ead.userauth.dto.request.ProfilePictureUpdateDTO;
 import com.ead.userauth.dto.request.UserUpdateDTO;
 import com.ead.userauth.dto.response.CourseDTO;
 import com.ead.userauth.entity.User;
-import com.ead.userauth.feignclients.CourseClient;
+import com.ead.userauth.feignclient.CourseClient;
+import com.ead.userauth.mapper.UserMapper;
+import com.ead.userauth.publisher.UserEventPublisher;
 import com.ead.userauth.repository.UserRepository;
 import com.ead.userauth.service.UserService;
 import com.ead.userauth.specification.UserSpecificationTemplate;
@@ -28,8 +32,10 @@ import java.util.UUID;
 @Log4j2
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
     private final CourseClient courseClient;
+    private final UserEventPublisher userEventPublisher;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -57,6 +63,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User insertUser(final User user) {
+        final User createdUser = saveUser(user);
+        final UserEventDTO userEventDTO = userMapper.from(createdUser);
+        userEventPublisher.publishUserEvent(userEventDTO, ActionType.CREATE);
+        return createdUser;
+    }
+
+    private User saveUser(final User user) {
         validateUserData(user);
         setUserDefaultData(user);
         return userRepository.save(user);

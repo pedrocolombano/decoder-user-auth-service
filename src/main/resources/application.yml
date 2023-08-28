@@ -37,6 +37,11 @@ eureka:
   instance:
     hostname: localhost
 
+ead:
+  broker:
+    exchange:
+      userEvent: ead.userevent
+
 
 feign:
   client:
